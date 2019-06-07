@@ -1,17 +1,18 @@
 import React from "react";
 import WelcomePage from "./WelcomePage";
-import BookList from "./BookList";
-import AuthorList from "./AuthorList";
-import GenreList from "./GenreList";
+import BookTable from "./BookTable";
+import AuthorTable from "./AuthorTable";
+import GenreTable from "./GenreTable";
 
 type MainComponentProps = {
     currentPage: string
 }
 
+const URL = "http://localhost:8080/";
+
 class MainComponent extends React.Component<MainComponentProps> {
 
     render() {
-
         const currentPage = this.props.currentPage;
         let currentComponent = <WelcomePage/>;
         switch (currentPage) {
@@ -19,13 +20,13 @@ class MainComponent extends React.Component<MainComponentProps> {
                 currentComponent = <WelcomePage/>;
                 break;
             case 'Books':
-                currentComponent = <BookList/>;
+                currentComponent = <BookTable booksLink={URL + '/books'}/>;
                 break;
             case 'Authors':
-                currentComponent = <AuthorList/>;
+                currentComponent = <AuthorTable authorsLink={URL + '/authors'}/>;
                 break;
             case 'Genres':
-                currentComponent = <GenreList/>;
+                currentComponent = <GenreTable genresLink={URL + '/genres'}/>;
                 break;
             default:
                 currentComponent = <WelcomePage/>;
