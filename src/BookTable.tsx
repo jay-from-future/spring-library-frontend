@@ -3,6 +3,7 @@ import {Book} from "./Book";
 import AuthorList from "./AuthorList";
 import GenreList from "./GenreList";
 import {CreateBookDialog} from "./CreateBookDialog";
+import {ReviewList} from "./ReviewList";
 
 type BookProps = {
     booksLink: string,
@@ -91,26 +92,6 @@ class BookTable extends React.Component<BookProps, BookTableState> {
 
     onEdit(link: string) {
         console.log("+BookTable.onEdit");
-        // fetch(link, {
-        //     method: 'PATCH',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         firstParam: 'yourValue',
-        //         secondParam: 'yourOtherValue'
-        //     })
-        // })
-        //     .then(
-        //         (result) => {
-        //             console.log(result);
-        //             this.loadBooks();
-        //         },
-        //         (error) => {
-        //             console.error(error);
-        //         }
-        //     );
     }
 
     onDelete(link: string) {
@@ -204,14 +185,11 @@ class BookRow extends React.Component<BookRowProps> {
                 <td>{title}</td>
                 <td><AuthorList authorsLink={authorsLink}/></td>
                 <td><GenreList genresLink={genresLink}/></td>
-                {/*<td><ReviewList reviewLink={reviewsLink}/></td>*/}
                 <td>
-                    <button onClick={this.handleShowReviews}>
-                        <img src="/img/baseline-chat-24px.svg" alt="Reviews"/>
-                    </button>
+                    <ReviewList reviewLink={reviewsLink}/>
                 </td>
                 <td>
-                    <button onClick={this.handleEdit}>
+                    <button onClick={this.handleEdit} disabled>
                         <img src="/img/round-edit-24px.svg" alt="Edit book"/>
                     </button>
                 </td>

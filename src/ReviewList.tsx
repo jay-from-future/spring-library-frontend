@@ -10,13 +10,19 @@ type ReviewListProps = {
 }
 type ReviewListState = {
     reviews: Array<Review>
+    visible: boolean
 }
 
 export class ReviewList extends React.Component<ReviewListProps, ReviewListState> {
 
     constructor(props: Readonly<ReviewListProps>) {
         super(props);
-        this.state = {reviews: new Array<Review>()};
+        this.state = {
+            reviews: new Array<Review>(),
+            visible: false
+        };
+
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount(): void {
@@ -39,14 +45,36 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
             })
     }
 
-    render() {
-
-        const reviews = this.state.reviews.map(r => {
-            return <ReviewItem review={r.review}/>
+    handleClick() {
+        console.log('+ReviewList.handleClick')
+        if (!this.state.visible) {
+            this.loadReviews();
+        }
+        this.setState({
+            visible: !this.state.visible
         });
+    }
+
+    render() {
+        const visible = this.state.visible;
+        let reviews;
+
+        if (visible) {
+            reviews = this.state.reviews.map(r => {
+                return <ReviewItem review={r.review}/>
+            });
+        }
+
         return (
-            <td>{reviews}</td>
-        );
+            <div>
+                <button type="button" onClick={this.handleClick}>
+                    <img src="/img/baseline-chat-24px.svg" alt="Reviews"/>
+                </button>
+                <div>
+                    {reviews}
+                </div>
+            </div>
+        )
     }
 
 }
@@ -54,12 +82,9 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
 class ReviewItem extends React.Component<Review> {
     render() {
         return (
-            <div>
-                <p>
-                    {this.props.review};
-                </p>
-                <p>-----------------------------------</p>
-            </div>
+            <span className="card">
+                <p>{this.props.review}</p>
+            </span>
         );
     }
 }
