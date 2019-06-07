@@ -8,7 +8,7 @@ type MainComponentProps = {
     currentPage: string
 }
 
-const URL = "http://localhost:8080/";
+const URL = "https://spring-library-app.herokuapp.com/";
 
 class MainComponent extends React.Component<MainComponentProps> {
 

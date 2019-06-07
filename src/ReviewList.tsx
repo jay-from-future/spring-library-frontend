@@ -46,7 +46,7 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
     }
 
     handleClick() {
-        console.log('+ReviewList.handleClick')
+        console.log('+ReviewList.handleClick');
         if (!this.state.visible) {
             this.loadReviews();
         }
