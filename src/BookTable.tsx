@@ -5,7 +5,9 @@ import GenreList from "./GenreList";
 import {CreateBookDialog} from "./CreateBookDialog";
 
 type BookProps = {
-    booksLink: string
+    booksLink: string,
+    authorsLink: string,
+    genresLink: string,
 }
 
 type BookTableState = {
@@ -60,7 +62,7 @@ class BookTable extends React.Component<BookProps, BookTableState> {
             })
     }
 
-    onCreate(title: string) {
+    onCreate(title: string, authors: Array<string>, genres: Array<string>) {
         console.log("+BookTable.onCreate");
         const booksLink = this.props.booksLink;
         fetch(booksLink, {
@@ -71,9 +73,9 @@ class BookTable extends React.Component<BookProps, BookTableState> {
             }
             ,
             body: JSON.stringify({
-                title: title
-                // authors: author,
-                // genres: genre
+                title: title,
+                authors: authors,
+                genres: genres
             })
         })
             .then(
@@ -133,6 +135,9 @@ class BookTable extends React.Component<BookProps, BookTableState> {
 
 
     render() {
+        const authorsLink = this.props.authorsLink;
+        const genresLink = this.props.genresLink;
+
         const books = this.state.books.map(book => {
             return (<BookRow key={book.selfLink} book={book} onShowReviews={this.onShowReviews} onEdit={this.onEdit}
                              onDelete={this.onDelete}/>);
@@ -157,7 +162,7 @@ class BookTable extends React.Component<BookProps, BookTableState> {
                     {books}
                     </tbody>
                 </table>
-                <CreateBookDialog onCreate={this.onCreate}/>
+                <CreateBookDialog onCreate={this.onCreate} genresLink={genresLink} authorsLink={authorsLink}/>
             </div>
         );
     }

@@ -20,7 +20,8 @@ class MainComponent extends React.Component<MainComponentProps> {
                 currentComponent = <WelcomePage/>;
                 break;
             case 'Books':
-                currentComponent = <BookTable booksLink={URL + '/books'}/>;
+                currentComponent =
+                    <BookTable booksLink={URL + '/books'} authorsLink={URL + '/authors'} genresLink={URL + '/genres'}/>;
                 break;
             case 'Authors':
                 currentComponent = <AuthorTable authorsLink={URL + '/authors'}/>;
