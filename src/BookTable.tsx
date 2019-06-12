@@ -1,9 +1,9 @@
-import React from "react";
-import {Book} from "./Book";
-import AuthorList from "./AuthorList";
-import GenreList from "./GenreList";
-import {CreateBookDialog} from "./CreateBookDialog";
-import {ReviewList} from "./ReviewList";
+import React from 'react';
+import {Book} from './domain/Book';
+import AuthorList from './AuthorList';
+import GenreList from './GenreList';
+import {CreateBookDialog} from './CreateBookDialog';
+import {ReviewList} from './ReviewList';
 
 type BookProps = {
     booksLink: string,
@@ -40,7 +40,7 @@ class BookTable extends React.Component<BookProps, BookTableState> {
     }
 
     loadBooks() {
-        console.log("+BookTable.loadBooks");
+        console.log('+BookTable.loadBooks');
         const booksLink = this.props.booksLink;
         fetch(booksLink)
             .then(response => response.json())
@@ -64,7 +64,7 @@ class BookTable extends React.Component<BookProps, BookTableState> {
     }
 
     onCreate(title: string, authors: Array<string>, genres: Array<string>) {
-        console.log("+BookTable.onCreate");
+        console.log('+BookTable.onCreate');
         const booksLink = this.props.booksLink;
         fetch(booksLink, {
             method: 'POST',
@@ -91,11 +91,11 @@ class BookTable extends React.Component<BookProps, BookTableState> {
     }
 
     onEdit(link: string) {
-        console.log("+BookTable.onEdit");
+        console.log('+BookTable.onEdit');
     }
 
     onDelete(link: string) {
-        console.log("+BookTable.onDelete");
+        console.log('+BookTable.onDelete');
         fetch(link, {method: 'DELETE'})
             .then(
                 (result) => {
@@ -110,10 +110,8 @@ class BookTable extends React.Component<BookProps, BookTableState> {
 
 
     onShowReviews(link: string) {
-        console.log("+BookTable.onShowReviews");
-
+        console.log('+BookTable.onShowReviews');
     }
-
 
     render() {
         const authorsLink = this.props.authorsLink;
@@ -125,11 +123,11 @@ class BookTable extends React.Component<BookProps, BookTableState> {
         });
 
         return (
-            <div className="container">
-                <h1 className="mt-5">Books</h1>
-                <p className="lead">List of all books in the library:</p>
-                <table className="table table-bordered">
-                    <thead className="thead-dark">
+            <div className='container'>
+                <h1 className='mt-5'>Books</h1>
+                <p className='lead'>List of all books in the library:</p>
+                <table className='table table-bordered'>
+                    <thead className='thead-dark'>
                     <tr>
                         <th>Title</th>
                         <th>Authors</th>
@@ -175,10 +173,7 @@ class BookRow extends React.Component<BookRowProps> {
     }
 
     render() {
-        const title = this.props.book.title;
-        const authorsLink = this.props.book.authorsLink;
-        const genresLink = this.props.book.genresLink;
-        const reviewsLink = this.props.book.reviewsLink;
+        const {title, authorsLink, genresLink, reviewsLink} = this.props.book;
 
         return (
             <tr>
@@ -190,12 +185,12 @@ class BookRow extends React.Component<BookRowProps> {
                 </td>
                 <td>
                     <button onClick={this.handleEdit} disabled>
-                        <img src="/img/round-edit-24px.svg" alt="Edit book"/>
+                        <img src='/img/round-edit-24px.svg' alt='Edit book'/>
                     </button>
                 </td>
                 <td>
                     <button onClick={this.handleDelete}>
-                        <img src="/img/round-delete-24px.svg" alt="Remove book"/>
+                        <img src='/img/round-delete-24px.svg' alt='Remove book'/>
                     </button>
                 </td>
             </tr>

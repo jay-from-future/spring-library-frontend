@@ -1,6 +1,6 @@
-import React from "react";
-import {Author} from "./Author";
-import {Genre} from "./Genre";
+import React from 'react';
+import {Author} from './domain/Author';
+import {Genre} from './domain/Genre';
 
 type CreateBookDialogProps = {
     authorsLink: string,
@@ -22,11 +22,11 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
         super(props);
 
         this.state = {
-            title: "",
+            title: '',
             authors: [],
             genres: [],
-            selectedAuthorLink: [""],
-            selectedGenreLink: [""]
+            selectedAuthorLink: [''],
+            selectedGenreLink: ['']
         };
 
         this.handleChangeTitle = this.handleChangeTitle.bind(this);
@@ -109,9 +109,9 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
         this.props.onCreate(this.state.title, this.state.selectedAuthorLink, this.state.selectedGenreLink);
 
         this.setState({
-            title: "",
-            selectedAuthorLink: [""],
-            selectedGenreLink: [""]
+            title: '',
+            selectedAuthorLink: [''],
+            selectedGenreLink: ['']
         });
 
         this.loadAuthors();
@@ -125,9 +125,9 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
         console.log(this.state.selectedGenreLink);
 
         this.setState({
-            title: "",
-            selectedAuthorLink: [""],
-            selectedGenreLink: [""]
+            title: '',
+            selectedAuthorLink: [''],
+            selectedGenreLink: ['']
         });
 
         this.loadAuthors();
@@ -135,42 +135,44 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
     }
 
     render() {
+        const {authors, genres, title, selectedAuthorLink, selectedGenreLink} = this.state;
 
-        const authorOptions = this.state.authors.map(a => {
+        const authorOptions = authors.map(a => {
             return (
-                <option selected={a.self === this.state.selectedAuthorLink[0]}
-                        value={a.self}>{a.firstName + ' ' + a.lastName}</option>);
+                <option key={a.self} value={a.self}>{a.firstName + ' ' + a.lastName}</option>);
         });
 
-        const genreOptions = this.state.genres.map(g => {
-            return (<option selected={g.self === this.state.selectedGenreLink[0]} value={g.self}>{g.genre}</option>);
+        const genreOptions = genres.map(g => {
+            return (<option key={g.self} value={g.self}>{g.genre}</option>);
         });
 
         return (
-            <div className="container">
+            <div className='container'>
                 <h2>Create new book</h2>
-                <form onSubmit={this.handleSubmit} onReset={this.handleReset} className="needs-validation">
-                    <div className="form-group">
-                        <label htmlFor="title">Title</label>
-                        <input type="text" className="form-control" id="title" placeholder="Title"
-                               value={this.state.title}
+                <form onSubmit={this.handleSubmit} onReset={this.handleReset} className='needs-validation'>
+                    <div className='form-group'>
+                        <label htmlFor='title'>Title</label>
+                        <input type='text' className='form-control' id='title' placeholder='Title'
+                               value={title}
                                onChange={this.handleChangeTitle}
                                required/>
 
-                        <label htmlFor="author">Author</label>
-                        <select className="form-control" id="author" onChange={this.handleChangeAuthor}>
+                        <label htmlFor='author'>Author</label>
+                        <select className='form-control' id='author' onChange={this.handleChangeAuthor}
+                                value={selectedAuthorLink[0]}>
                             {authorOptions}
                         </select>
 
-                        <label htmlFor="genre">Genre</label>
-                        <select className="form-control" id="genre" onChange={this.handleChangeGenre}>
+                        <label htmlFor='genre'>Genre</label>
+                        <select className='form-control' id='genre' onChange={this.handleChangeGenre}
+                                value={selectedGenreLink[0]}>
                             {genreOptions}
                         </select>
                     </div>
 
-                    <div className="form-group">
-                        <input type="submit" value="Submit" className="btn btn-primary"/>
-                        <input type="reset" value="Reset" className="btn btn-secondary"/>
+                    <div className='form-group'>
+                        <input type='submit' value='Submit' className='btn btn-primary'/>
+                        <input type='reset' value='Reset' className='btn btn-secondary'/>
                     </div>
                 </form>
             </div>

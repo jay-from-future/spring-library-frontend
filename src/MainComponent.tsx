@@ -1,14 +1,14 @@
-import React from "react";
-import WelcomePage from "./WelcomePage";
-import BookTable from "./BookTable";
-import AuthorTable from "./AuthorTable";
-import GenreTable from "./GenreTable";
+import React from 'react';
+import WelcomePage from './WelcomePage';
+import BookTable from './BookTable';
+import AuthorTable from './AuthorTable';
+import GenreTable from './GenreTable';
 
 type MainComponentProps = {
     currentPage: string
 }
 
-const URL = "https://spring-library-app.herokuapp.com/";
+const URL = 'https://spring-library-app.herokuapp.com/';
 
 class MainComponent extends React.Component<MainComponentProps> {
 
@@ -34,7 +34,7 @@ class MainComponent extends React.Component<MainComponentProps> {
         }
 
         return (
-            <main role="main" className="flex-shrink-0">
+            <main role='main' className='flex-shrink-0'>
                 {currentComponent}
             </main>
         );

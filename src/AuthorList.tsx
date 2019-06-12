@@ -1,5 +1,5 @@
-import React from "react";
-import {Author} from "./Author";
+import React from 'react';
+import {Author} from './domain/Author';
 
 type AuthorListProps = {
     authorsLink: string
@@ -37,24 +37,16 @@ class AuthorList extends React.Component<AuthorListProps, AuthorListState> {
     }
 
     render() {
-        const authors = this.state.authors.map(a => {
-            return <AuthorItem key={a.self} self={a.self} firstName={a.firstName} lastName={a.lastName}/>
-        });
+        const {authors} = this.state;
         return (
-            <ul className="list-unstyled">{authors}</ul>
+            <ul className='list-unstyled'>
+                {authors.map(a => {
+                        return (<li key={a.self}>{a.firstName + ' ' + a.lastName}</li>);
+                    }
+                )}
+            </ul>
         );
     }
 }
-
-class AuthorItem extends React.Component<Author> {
-    render() {
-        return (
-            <li>
-                {this.props.firstName + ' ' + this.props.lastName}
-            </li>
-        );
-    }
-}
-
 
 export default AuthorList;

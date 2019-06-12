@@ -25,23 +25,23 @@ class NavigationBar extends React.Component<NavigationBarProps, NavigationBarSta
         this.state = {
             pages: [
                 {
-                    title: "Main",
-                    href: "/index.html",
+                    title: 'Main',
+                    href: '/index.html',
                     active: false
                 },
                 {
-                    title: "Books",
-                    href: "/books",
+                    title: 'Books',
+                    href: '/books',
                     active: false
                 },
                 {
-                    title: "Authors",
-                    href: "/authors",
+                    title: 'Authors',
+                    href: '/authors',
                     active: false
                 },
                 {
-                    title: "Genres",
-                    href: "/genres",
+                    title: 'Genres',
+                    href: '/genres',
                     active: false
                 }
             ]
@@ -88,9 +88,9 @@ class NavigationBar extends React.Component<NavigationBarProps, NavigationBarSta
         });
 
         return (
-            <main role="main" className="flex-shrink-0">
-                <div className="container">
-                    <ul className="nav nav-pills nav-fill">
+            <main role='main' className='flex-shrink-0'>
+                <div className='container'>
+                    <ul className='nav nav-pills nav-fill'>
                         {menuItems}
                     </ul>
                 </div>
@@ -107,12 +107,12 @@ class MenuItem extends React.Component<MenuItemProps> {
         const active = this.props.active;
         const onClick = this.props.onClick;
 
-        let className = "nav-link inactive";
+        let className = 'nav-link inactive';
         if (active) {
-            className = "nav-link active";
+            className = 'nav-link active';
         }
         return (
-            <li className="nav-item">
+            <li className='nav-item'>
                 <a className={className} href={href} onClick={onClick} title={title}>{title}</a>
             </li>
         );

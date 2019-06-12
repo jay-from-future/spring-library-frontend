@@ -1,5 +1,5 @@
-import React from "react";
-import {Genre} from "./Genre";
+import React from 'react';
+import {Genre} from './domain/Genre';
 
 type GenreTableProps = {
     genresLink: string
@@ -41,11 +41,11 @@ class GenreTable extends React.Component<GenreTableProps, GenreTableState> {
             return <GenreRow key={g.self} self={g.self} genre={g.genre}/>
         });
         return (
-            <div className="container">
-                <h1 className="mt-5">Genres:</h1>
-                <p className="lead">List of all book genres in the library:</p>
-                <table className="table table-bordered">
-                    <thead className="thead-dark">
+            <div className='container'>
+                <h1 className='mt-5'>Genres:</h1>
+                <p className='lead'>List of all book genres in the library:</p>
+                <table className='table table-bordered'>
+                    <thead className='thead-dark'>
                     <tr>
                         <th>Genre</th>
                     </tr>

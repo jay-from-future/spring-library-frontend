@@ -1,5 +1,5 @@
-import React from "react";
-import {Author} from "./Author";
+import React from 'react';
+import {Author} from './domain/Author';
 
 type AuthorTableProps = {
     authorsLink: string
@@ -37,40 +37,33 @@ class AuthorTable extends React.Component<AuthorTableProps, AuthorTableState> {
     }
 
     render() {
-        const authors = this.state.authors.map(a => {
-            return <AuthorRow key={a.self} self={a.self} firstName={a.firstName} lastName={a.lastName}/>
-        });
+        const {authors} = this.state;
         return (
-            <div className="container">
-                <h1 className="mt-5">Authors:</h1>
-                <p className="lead">List of all authors in the library:</p>
-                <table className="table table-bordered">
-                    <thead className="thead-dark">
+            <div className='container'>
+                <h1 className='mt-5'>Authors:</h1>
+                <p className='lead'>List of all authors in the library:</p>
+                <table className='table table-bordered'>
+                    <thead className='thead-dark'>
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {authors}
+                    {authors.map(a => {
+                        return (
+                            <tr key={a.self}>
+                                <td>{a.firstName}</td>
+                                <td>{a.lastName}</td>
+                            </tr>
+                        );
+                    })
+                    }
                     </tbody>
                 </table>
             </div>
         );
     }
 }
-
-class AuthorRow extends React.Component<Author> {
-
-    render() {
-        return (
-            <tr>
-                <td>{this.props.firstName}</td>
-                <td>{this.props.lastName}</td>
-            </tr>
-        );
-    }
-}
-
 
 export default AuthorTable;

@@ -1,9 +1,5 @@
-import React from "react";
-
-class Review {
-    constructor(public review: string) {
-    }
-}
+import React from 'react';
+import {Review} from "./domain/Review";
 
 type ReviewListProps = {
     reviewLink: string
@@ -35,7 +31,7 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
             .then(result => {
                 console.log(result);
                 let reviews = result._embedded.reviews.map((r: any) => {
-                    return new Review(r.review);
+                    return new Review(r._links.self.href, r.review);
                 });
                 this.setState({
                     reviews: reviews
@@ -56,35 +52,23 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
     }
 
     render() {
-        const visible = this.state.visible;
-        let reviews;
-
-        if (visible) {
-            reviews = this.state.reviews.map(r => {
-                return <ReviewItem review={r.review}/>
-            });
-        }
-
+        const {visible, reviews} = this.state;
         return (
             <div>
-                <button type="button" onClick={this.handleClick}>
-                    <img src="/img/baseline-chat-24px.svg" alt="Reviews"/>
+                <button type='button' onClick={this.handleClick}>
+                    <img src='/img/baseline-chat-24px.svg' alt='Reviews'/>
                 </button>
                 <div>
-                    {reviews}
+                    {visible && reviews && reviews.map((r) => {
+                        return (
+                            <span key={r.self} className='card'>
+                                <p>{r.review}</p>
+                            </span>
+                        )
+                    })}
                 </div>
             </div>
         )
     }
 
-}
-
-class ReviewItem extends React.Component<Review> {
-    render() {
-        return (
-            <span className="card">
-                <p>{this.props.review}</p>
-            </span>
-        );
-    }
 }

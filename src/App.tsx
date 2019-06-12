@@ -1,21 +1,19 @@
 import React from 'react';
-import NavigationBar from "./NavigationBar";
-import MainComponent from "./MainComponent";
-import Footer from "./Footer";
-
-type AppProps = {}
+import NavigationBar from './NavigationBar';
+import MainComponent from './MainComponent';
+import Footer from './Footer';
 
 type AppState = {
     currentPage: string
 }
 
-class App extends React.Component<AppProps, AppState> {
+class App extends React.Component<any, AppState> {
 
-    constructor(props: Readonly<AppProps>) {
+    constructor(props: any) {
         super(props);
 
         this.state = {
-            currentPage: "Main"
+            currentPage: 'Main'
         };
 
         this.onPageChange = this.onPageChange.bind(this);
@@ -23,9 +21,7 @@ class App extends React.Component<AppProps, AppState> {
 
     onPageChange(currentPage: string) {
         console.log('+App.onPageChange');
-        this.setState({
-            currentPage: currentPage
-        });
+        this.setState({currentPage: currentPage});
     }
 
     render() {

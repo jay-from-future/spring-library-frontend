@@ -1,5 +1,5 @@
-import React from "react";
-import {Genre} from "./Genre";
+import React from 'react';
+import {Genre} from './domain/Genre';
 
 type GenreListProps = {
     genresLink: string
@@ -36,22 +36,15 @@ class GenreList extends React.Component<GenreListProps, GenreListState> {
     }
 
     render() {
-
-        const genres = this.state.genres.map(g => {
-            return <GenreItem key={g.self} self={g.self} genre={g.genre}/>
-        });
+        const {genres} = this.state;
         return (
-            <ul className="list-unstyled">{genres}</ul>
-        );
-    }
-}
-
-class GenreItem extends React.Component<Genre> {
-    render() {
-        return (
-            <li>
-                {this.props.genre}
-            </li>
+            <ul className='list-unstyled'>{genres.map(g => {
+                return (
+                    <li key={g.self}>
+                        {g.genre}
+                    </li>
+                )
+            })}</ul>
         );
     }
 }
