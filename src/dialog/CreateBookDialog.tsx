@@ -1,6 +1,6 @@
 import React from 'react';
-import {Author} from './domain/Author';
-import {Genre} from './domain/Genre';
+import {Author} from '../domain/Author';
+import {Genre} from '../domain/Genre';
 
 type CreateBookDialogProps = {
     authorsLink: string,

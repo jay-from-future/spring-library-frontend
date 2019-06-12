@@ -1,5 +1,5 @@
 import React from 'react';
-import WelcomePage from './WelcomePage';
+import WelcomePage from '../stateless/WelcomePage';
 import BookTable from './BookTable';
 import AuthorTable from './AuthorTable';
 import GenreTable from './GenreTable';
@@ -24,10 +24,10 @@ class MainComponent extends React.Component<MainComponentProps> {
                     <BookTable booksLink={URL + '/books'} authorsLink={URL + '/authors'} genresLink={URL + '/genres'}/>;
                 break;
             case 'Authors':
-                currentComponent = <AuthorTable authorsLink={URL + '/authors'}/>;
+                currentComponent = <AuthorTable/>;
                 break;
             case 'Genres':
-                currentComponent = <GenreTable genresLink={URL + '/genres'}/>;
+                currentComponent = <GenreTable/>;
                 break;
             default:
                 currentComponent = <WelcomePage/>;

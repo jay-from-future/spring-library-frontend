@@ -1,7 +1,7 @@
 import React from 'react';
-import NavigationBar from './NavigationBar';
-import MainComponent from './MainComponent';
-import Footer from './Footer';
+import NavigationBar from './components/NavigationBar';
+import MainComponent from './components/MainComponent';
+import Footer from './stateless/Footer';
 
 type AppState = {
     currentPage: string

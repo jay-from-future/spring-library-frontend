@@ -1,5 +1,5 @@
 import React from 'react';
-import {Review} from "./domain/Review";
+import {Review} from "../domain/Review";
 
 type ReviewListProps = {
     reviewLink: string
@@ -11,7 +11,7 @@ type ReviewListState = {
 
 export class ReviewList extends React.Component<ReviewListProps, ReviewListState> {
 
-    constructor(props: Readonly<ReviewListProps>) {
+    constructor(props: Readonly<any>) {
         super(props);
         this.state = {
             reviews: new Array<Review>(),
@@ -19,6 +19,7 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
         };
 
         this.handleClick = this.handleClick.bind(this);
+        this.loadReviews = this.loadReviews.bind(this);
     }
 
     componentDidMount(): void {
@@ -26,28 +27,29 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
     }
 
     loadReviews() {
+        console.log('+loadReviews:' + this.props.reviewLink);
         fetch(this.props.reviewLink)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
-                let reviews = result._embedded.reviews.map((r: any) => {
+                const reviews = result._embedded.reviews.map((r: any) => {
                     return new Review(r._links.self.href, r.review);
                 });
-                this.setState({
-                    reviews: reviews
-                });
+                this.setState({reviews: reviews});
             }, error => {
                 console.error(error)
-            })
-    }
+            });
+    };
+
 
     handleClick() {
         console.log('+ReviewList.handleClick');
-        if (!this.state.visible) {
+        const visible = this.state.visible;
+        if (!visible) {
             this.loadReviews();
         }
         this.setState({
-            visible: !this.state.visible
+            visible: !visible
         });
     }
 
