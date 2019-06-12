@@ -9,6 +9,8 @@ type GenreState = {
 
 export default abstract class GenreGenericComponent extends React.Component<any, GenreState> {
 
+    _isMounted = false;
+
     constructor(props: any) {
         super(props);
         this.state = {genres: new Array<Genre>()};
@@ -16,7 +18,12 @@ export default abstract class GenreGenericComponent extends React.Component<any,
     }
 
     componentDidMount(): void {
+        this._isMounted = true;
         this.loadGenres();
+    }
+
+    componentWillUnmount(): void {
+        this._isMounted = false;
     }
 
     loadGenres() {
@@ -27,7 +34,9 @@ export default abstract class GenreGenericComponent extends React.Component<any,
                 const genres = result._embedded.genres.map((g: any) => {
                     return new Genre(g._links.self.href, g.genre);
                 });
-                this.setState({genres: genres});
+                if (this._isMounted) {
+                    this.setState({genres: genres});
+                }
             }, error => {
                 console.error(error)
             });

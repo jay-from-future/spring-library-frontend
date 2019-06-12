@@ -3,6 +3,8 @@ import {CreateBookDialog} from '../dialog/CreateBookDialog';
 import {BookRow} from "./BookRow";
 import BookGenericComponent from "./BookGenericComponent";
 
+const url = process.env.REACT_APP_URL;
+
 class BookTable extends BookGenericComponent {
 
     constructor(props: any) {
@@ -14,8 +16,7 @@ class BookTable extends BookGenericComponent {
 
     onCreate(title: string, authors: Array<string>, genres: Array<string>) {
         console.log('+BookTable.onCreate');
-        const booksLink = this.props.booksLink;
-        fetch(booksLink, {
+        fetch(url + '/books', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -57,14 +58,11 @@ class BookTable extends BookGenericComponent {
             );
     }
 
-
     onShowReviews(link: string) {
         console.log('+BookTable.onShowReviews');
     }
 
     render() {
-        const authorsLink = this.props.authorsLink;
-        const genresLink = this.props.genresLink;
 
         const books = this.state.books.map(book => {
             return (<BookRow key={book.selfLink} book={book} onShowReviews={this.onShowReviews} onEdit={this.onEdit}
@@ -90,7 +88,7 @@ class BookTable extends BookGenericComponent {
                     {books}
                     </tbody>
                 </table>
-                <CreateBookDialog onCreate={this.onCreate} genresLink={genresLink} authorsLink={authorsLink}/>
+                <CreateBookDialog onCreate={this.onCreate}/>
             </div>
         );
     }

@@ -1,89 +1,53 @@
 import React from 'react';
-
-type NavigationBarProps = {
-    currentPage: string,
-    onPageChange: {(currentPage: string): void};
-}
+import {BrowserRouter as Router, NavLink, Route} from 'react-router-dom';
+import WelcomePage from '../stateless/WelcomePage';
+import GenreTable from './GenreTable';
+import AuthorTable from './AuthorTable';
+import BookTable from './BookTable';
 
 type MenuItemProps = {
     title: string,
     href: string
-    active: boolean,
-    onClick?: { (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void }
 }
 
 type NavigationBarState = {
     pages: Array<MenuItemProps>;
 }
 
+class NavigationBar extends React.Component<any, NavigationBarState> {
 
-class NavigationBar extends React.Component<NavigationBarProps, NavigationBarState> {
-
-    constructor(props: Readonly<NavigationBarProps>) {
+    constructor(props: any) {
         super(props);
 
         this.state = {
             pages: [
                 {
                     title: 'Main',
-                    href: '/index.html',
-                    active: false
+                    href: '/'
                 },
                 {
                     title: 'Books',
-                    href: '/books',
-                    active: false
+                    href: '/books'
                 },
                 {
                     title: 'Authors',
-                    href: '/authors',
-                    active: false
+                    href: '/authors'
                 },
                 {
                     title: 'Genres',
-                    href: '/genres',
-                    active: false
+                    href: '/genres'
                 }
             ]
         };
-
-        const currentPage = this.props.currentPage;
-        const find = this.state.pages.find(p => p.title === currentPage);
-        if (find) {
-            find.active = true;
-        } else {
-            console.error('Cannot find selected page in menu: ' + currentPage)
-        }
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-        e.preventDefault();
-        console.log('+NavigationBar.handleClick');
-
-        const selectedPage = e.currentTarget.title;
-        const pages = this.state.pages.slice();
-        const onPageChange = this.props.onPageChange;
-
-        let find = pages.find(p => p.title === selectedPage);
-        console.log('Selected page: ', find);
-        if (find) {
-            pages.forEach(p => {
-                p.active = p === find;
-            });
-            this.setState({
-                pages: pages
-            });
-            onPageChange(selectedPage);
-        } else {
-            console.error('Cannot find selected page in menu: ' + selectedPage)
-        }
     }
 
     render() {
         let menuItems = this.state.pages.map(p => {
             return (
-                <MenuItem key={p.href} title={p.title} href={p.href} active={p.active} onClick={this.handleClick}/>
+                <li key={p.href} className='nav-item'>
+                    <NavLink exact={true} to={p.href} className='nav-link inactive'
+                             activeClassName='nav-link active' title={p.title}>{p.title}</NavLink>
+                </li>
             );
         });
 
@@ -91,30 +55,16 @@ class NavigationBar extends React.Component<NavigationBarProps, NavigationBarSta
             <main role='main' className='flex-shrink-0'>
                 <div className='container'>
                     <ul className='nav nav-pills nav-fill'>
-                        {menuItems}
+                        <Router>
+                            {menuItems}
+                            <Route exact={true} path='/' component={WelcomePage}/>
+                            <Route path='/books' component={BookTable}/>
+                            <Route path='/authors' component={AuthorTable}/>
+                            <Route path='/genres' component={GenreTable}/>
+                        </Router>
                     </ul>
                 </div>
             </main>
-        );
-    }
-}
-
-class MenuItem extends React.Component<MenuItemProps> {
-
-    render() {
-        const title = this.props.title;
-        const href = this.props.href;
-        const active = this.props.active;
-        const onClick = this.props.onClick;
-
-        let className = 'nav-link inactive';
-        if (active) {
-            className = 'nav-link active';
-        }
-        return (
-            <li className='nav-item'>
-                <a className={className} href={href} onClick={onClick} title={title}>{title}</a>
-            </li>
         );
     }
 }

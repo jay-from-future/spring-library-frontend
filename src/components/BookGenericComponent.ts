@@ -9,6 +9,8 @@ type BookComponentState = {
 
 export default abstract class BookGenericComponent extends React.Component<any, BookComponentState> {
 
+    _isMounted = false;
+
     protected constructor(props: any) {
         super(props);
 
@@ -20,7 +22,12 @@ export default abstract class BookGenericComponent extends React.Component<any, 
     }
 
     componentDidMount(): void {
+        this._isMounted = true;
         this.loadBooks();
+    }
+
+    componentWillUnmount(): void {
+        this._isMounted = false;
     }
 
     loadBooks() {
@@ -37,9 +44,11 @@ export default abstract class BookGenericComponent extends React.Component<any, 
                         links.genres.href,
                         links.reviews.href);
                 });
-                this.setState({
-                    books: books
-                });
+                if (this._isMounted) {
+                    this.setState({
+                        books: books
+                    });
+                }
 
             }, error => {
                 console.error(error)

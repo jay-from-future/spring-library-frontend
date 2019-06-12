@@ -9,6 +9,8 @@ type AuthorState = {
 
 export default abstract class AuthorGenericComponent extends React.Component<any, AuthorState> {
 
+    _isMounted = false;
+
     constructor(props: any) {
         super(props);
         this.state = {authors: new Array<Author>()};
@@ -16,7 +18,12 @@ export default abstract class AuthorGenericComponent extends React.Component<any
     }
 
     componentDidMount(): void {
+        this._isMounted = true;
         this.loadAuthors();
+    }
+
+    componentWillUnmount(): void {
+        this._isMounted = false;
     }
 
     loadAuthors() {
@@ -28,7 +35,9 @@ export default abstract class AuthorGenericComponent extends React.Component<any
                 const authors = result._embedded.authors.map((a: any) => {
                     return new Author(a._links.self.href, a.firstName, a.lastName);
                 });
-                this.setState({authors: authors});
+                if (this._isMounted) {
+                    this.setState({authors: authors});
+                }
             }, error => {
                 console.error(error)
             });

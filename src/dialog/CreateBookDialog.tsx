@@ -2,9 +2,9 @@ import React from 'react';
 import {Author} from '../domain/Author';
 import {Genre} from '../domain/Genre';
 
+const url = process.env.REACT_APP_URL;
+
 type CreateBookDialogProps = {
-    authorsLink: string,
-    genresLink: string,
     onCreate: { (title: string, authorLinks: Array<string>, genreLinks: Array<string>): void }
 }
 
@@ -42,8 +42,7 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
     }
 
     loadAuthors() {
-        const authorsLink = this.props.authorsLink;
-        fetch(authorsLink)
+        fetch(url + '/authors')
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -64,7 +63,7 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
     }
 
     loadGenres() {
-        fetch(this.props.genresLink)
+        fetch(url + '/genres')
             .then(response => response.json())
             .then(result => {
                 console.log(result);

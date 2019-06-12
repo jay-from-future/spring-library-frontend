@@ -11,6 +11,8 @@ type ReviewListState = {
 
 export class ReviewList extends React.Component<ReviewListProps, ReviewListState> {
 
+    _isMounted = false;
+
     constructor(props: Readonly<any>) {
         super(props);
         this.state = {
@@ -23,7 +25,12 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
     }
 
     componentDidMount(): void {
+        this._isMounted = true;
         this.loadReviews();
+    }
+
+    componentWillUnmount(): void {
+        this._isMounted = false;
     }
 
     loadReviews() {
@@ -35,7 +42,9 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
                 const reviews = result._embedded.reviews.map((r: any) => {
                     return new Review(r._links.self.href, r.review);
                 });
-                this.setState({reviews: reviews});
+                if (this._isMounted) {
+                    this.setState({reviews: reviews});
+                }
             }, error => {
                 console.error(error)
             });
