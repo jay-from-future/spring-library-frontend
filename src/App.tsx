@@ -1,41 +1,17 @@
 import React from 'react';
-import NavigationBar from "./NavigationBar";
-import MainComponent from "./MainComponent";
-import Footer from "./Footer";
-
-type AppProps = {}
+import NavigationBar from './components/NavigationBar';
+import Footer from './stateless/Footer';
 
 type AppState = {
     currentPage: string
 }
 
-class App extends React.Component<AppProps, AppState> {
-
-    constructor(props: Readonly<AppProps>) {
-        super(props);
-
-        this.state = {
-            currentPage: "Main"
-        };
-
-        this.onPageChange = this.onPageChange.bind(this);
-    };
-
-    onPageChange(currentPage: string) {
-        console.log('+App.onPageChange');
-        this.setState({
-            currentPage: currentPage
-        });
-    }
+class App extends React.Component<any, AppState> {
 
     render() {
-
-        let currentPage = this.state.currentPage;
-
         return (
             <div>
-                <NavigationBar currentPage={currentPage} onPageChange={this.onPageChange}/>
-                <MainComponent currentPage={currentPage}/>
+                <NavigationBar/>
                 <Footer/>
             </div>
         );
