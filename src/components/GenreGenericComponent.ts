@@ -3,11 +3,16 @@ import React from "react";
 
 const url = process.env.REACT_APP_URL;
 
-type GenreState = {
+type GenreGenericComponentProps = {
+    genresLink: string
+}
+
+type GenreGenericComponentState = {
     genres: Array<Genre>
 }
 
-export default abstract class GenreGenericComponent extends React.Component<any, GenreState> {
+export default abstract class GenreGenericComponent extends React.Component<GenreGenericComponentProps,
+    GenreGenericComponentState> {
 
     _isMounted = false;
 
@@ -27,8 +32,14 @@ export default abstract class GenreGenericComponent extends React.Component<any,
     }
 
     loadGenres() {
-        console.log('+loadGenres:' + url);
-        fetch(url + '/genres')
+        let genresLink = url + '/genres';
+        if (this.props.genresLink) {
+            genresLink = this.props.genresLink;
+        }
+
+        console.log('+loadGenres:' + genresLink);
+
+        fetch(genresLink)
             .then(response => response.json())
             .then(result => {
                 const genres = result._embedded.genres.map((g: any) => {

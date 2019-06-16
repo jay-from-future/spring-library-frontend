@@ -37,13 +37,13 @@ export class BookRow extends React.Component<BookRowProps> {
     }
 
     render() {
-        const {title, reviewsLink} = this.props.book;
+        const {title, authorsLink, genresLink, reviewsLink} = this.props.book;
 
         return (
             <tr>
                 <td>{title}</td>
-                <td><AuthorList/></td>
-                <td><GenreList/></td>
+                <td><AuthorList authorsLink={authorsLink}/></td>
+                <td><GenreList genresLink={genresLink}/></td>
                 <td>
                     <ReviewList reviewLink={reviewsLink}/>
                 </td>

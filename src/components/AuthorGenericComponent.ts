@@ -3,11 +3,16 @@ import React from "react";
 
 const url = process.env.REACT_APP_URL;
 
-type AuthorState = {
+type AuthorGenericComponentProps = {
+    authorsLink: string
+}
+
+type AuthorGenericComponentState = {
     authors: Array<Author>
 }
 
-export default abstract class AuthorGenericComponent extends React.Component<any, AuthorState> {
+export default abstract class AuthorGenericComponent extends React.Component<AuthorGenericComponentProps,
+    AuthorGenericComponentState> {
 
     _isMounted = false;
 
@@ -27,8 +32,14 @@ export default abstract class AuthorGenericComponent extends React.Component<any
     }
 
     loadAuthors() {
-        console.log('+loadAuthors:' + url);
-        fetch(url + '/authors')
+        let authorsLink = url + '/authors';
+        if (this.props.authorsLink) {
+            authorsLink = this.props.authorsLink;
+        }
+
+        console.log('+loadAuthors:' + authorsLink);
+
+        fetch(authorsLink)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
