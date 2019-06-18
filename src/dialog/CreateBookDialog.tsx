@@ -1,8 +1,6 @@
 import React from 'react';
-import {Author} from '../domain/Author';
-import {Genre} from '../domain/Genre';
-
-const url = process.env.REACT_APP_URL;
+import {GenreSearch} from "./GenreSearch";
+import {AuthorSearch} from "./AuthorSearch";
 
 type CreateBookDialogProps = {
     onCreate: { (title: string, authorLinks: Array<string>, genreLinks: Array<string>): void }
@@ -10,10 +8,10 @@ type CreateBookDialogProps = {
 
 type CreateBookDialogState = {
     title: string,
-    selectedAuthorLink: Array<string>,
-    selectedGenreLink: Array<string>,
-    authors: Array<Author>,
-    genres: Array<Genre>,
+    selectedAuthorLinks: Array<string>,
+    selectedGenreLinks: Array<string>
+    authorErrorFlag: boolean,
+    genreErrorFlag: boolean
 }
 
 export class CreateBookDialog extends React.Component<CreateBookDialogProps, CreateBookDialogState> {
@@ -23,63 +21,17 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
 
         this.state = {
             title: '',
-            authors: [],
-            genres: [],
-            selectedAuthorLink: [''],
-            selectedGenreLink: ['']
+            selectedAuthorLinks: [],
+            selectedGenreLinks: [],
+            authorErrorFlag: false,
+            genreErrorFlag: false
         };
 
         this.handleChangeTitle = this.handleChangeTitle.bind(this);
-        this.handleChangeAuthor = this.handleChangeAuthor.bind(this);
-        this.handleChangeGenre = this.handleChangeGenre.bind(this);
+        this.handleChangeAuthorLinks = this.handleChangeAuthorLinks.bind(this);
+        this.handleChangeGenreLinks = this.handleChangeGenreLinks.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleReset = this.handleReset.bind(this);
-    }
-
-    componentDidMount(): void {
-        this.loadAuthors();
-        this.loadGenres();
-    }
-
-    loadAuthors() {
-        fetch(url + '/authors')
-            .then(response => response.json())
-            .then(result => {
-                console.log(result);
-                let authors = result._embedded.authors.map((a: any) => {
-                    return new Author(a._links.self.href, a.firstName, a.lastName);
-                });
-                let authorLinks = authors.map((a: Author) => {
-                    return a.self;
-                });
-                this.setState({
-                    authors: authors,
-                    selectedAuthorLink: [authorLinks[0]]
-                });
-            }, error => {
-                console.error(error)
-            });
-
-    }
-
-    loadGenres() {
-        fetch(url + '/genres')
-            .then(response => response.json())
-            .then(result => {
-                console.log(result);
-                let genres = result._embedded.genres.map((g: any) => {
-                    return new Genre(g._links.self.href, g.genre);
-                });
-                let genreLinks = genres.map((g: Genre) => {
-                    return g.self;
-                });
-                this.setState({
-                    genres: genres,
-                    selectedGenreLink: [genreLinks[0]]
-                });
-            }, error => {
-                console.error(error)
-            });
     }
 
     handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
@@ -87,17 +39,19 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
         this.setState({title: e.currentTarget.value});
     }
 
-    handleChangeAuthor(e: React.ChangeEvent<HTMLSelectElement>) {
-        console.log('+CreateBookDialog.handleChangeAuthor');
+    handleChangeAuthorLinks(links: string[]) {
+        console.log('+CreateBookDialog.handleChangeAuthorLinks');
         this.setState({
-            selectedAuthorLink: [e.currentTarget.value]
+            selectedAuthorLinks: links,
+            authorErrorFlag: false,
         });
     }
 
-    handleChangeGenre(e: React.ChangeEvent<HTMLSelectElement>) {
-        console.log('+CreateBookDialog.handleChangeGenre');
+    handleChangeGenreLinks(links: string[]) {
+        console.log('+CreateBookDialog.handleChangeGenreLinks');
         this.setState({
-            selectedGenreLink: [e.currentTarget.value]
+            selectedGenreLinks: links,
+            genreErrorFlag: false
         });
     }
 
@@ -105,45 +59,56 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
         e.preventDefault();
         console.log('+CreateBookDialog.handleSubmit');
 
-        this.props.onCreate(this.state.title, this.state.selectedAuthorLink, this.state.selectedGenreLink);
+        const title = this.state.title;
+        const authorLinksLength = this.state.selectedAuthorLinks.length;
+        const genreLinksLength = this.state.selectedGenreLinks.length;
+        if (title && authorLinksLength > 0 && genreLinksLength > 0) {
+            this.props.onCreate(title, this.state.selectedAuthorLinks, this.state.selectedGenreLinks);
 
-        this.setState({
-            title: '',
-            selectedAuthorLink: [''],
-            selectedGenreLink: ['']
-        });
-
-        this.loadAuthors();
-        this.loadGenres();
+            this.setState({
+                title: '',
+                selectedAuthorLinks: [],
+                selectedGenreLinks: [],
+                authorErrorFlag: false,
+                genreErrorFlag: false
+            });
+        } else {
+            this.setState({
+                authorErrorFlag: authorLinksLength === 0,
+                genreErrorFlag: genreLinksLength === 0
+            });
+        }
     }
 
     handleReset(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         console.log('+CreateBookDialog.handleReset');
-        console.log(this.state.selectedAuthorLink);
-        console.log(this.state.selectedGenreLink);
 
         this.setState({
             title: '',
-            selectedAuthorLink: [''],
-            selectedGenreLink: ['']
+            selectedGenreLinks: [],
+            selectedAuthorLinks: [],
+            authorErrorFlag: false,
+            genreErrorFlag: false
         });
-
-        this.loadAuthors();
-        this.loadGenres();
     }
 
     render() {
-        const {authors, genres, title, selectedAuthorLink, selectedGenreLink} = this.state;
+        const {title, selectedAuthorLinks, selectedGenreLinks, authorErrorFlag, genreErrorFlag} = this.state;
 
-        const authorOptions = authors.map(a => {
-            return (
-                <option key={a.self} value={a.self}>{a.firstName + ' ' + a.lastName}</option>);
-        });
+        let authorError;
+        if (authorErrorFlag) {
+            authorError = <div className="alert alert-danger" role="alert">
+                Please, choose at least one author!
+            </div>;
+        }
 
-        const genreOptions = genres.map(g => {
-            return (<option key={g.self} value={g.self}>{g.genre}</option>);
-        });
+        let genreError;
+        if (genreErrorFlag) {
+            genreError = <div className="alert alert-danger" role="alert">
+                Please, choose at least one genre!
+            </div>;
+        }
 
         return (
             <div className='container'>
@@ -155,20 +120,13 @@ export class CreateBookDialog extends React.Component<CreateBookDialogProps, Cre
                                value={title}
                                onChange={this.handleChangeTitle}
                                required/>
-
-                        <label htmlFor='author'>Author</label>
-                        <select className='form-control' id='author' onChange={this.handleChangeAuthor}
-                                value={selectedAuthorLink[0]}>
-                            {authorOptions}
-                        </select>
-
-                        <label htmlFor='genre'>Genre</label>
-                        <select className='form-control' id='genre' onChange={this.handleChangeGenre}
-                                value={selectedGenreLink[0]}>
-                            {genreOptions}
-                        </select>
                     </div>
-
+                    <AuthorSearch handleChangeAuthorLinks={this.handleChangeAuthorLinks}
+                                  clean={selectedAuthorLinks.length === 0}/>
+                    {authorError}
+                    <GenreSearch handleChangeGenreLinks={this.handleChangeGenreLinks}
+                                 clean={selectedGenreLinks.length === 0}/>
+                    {genreError}
                     <div className='form-group'>
                         <input type='submit' value='Submit' className='btn btn-primary'/>
                         <input type='reset' value='Reset' className='btn btn-secondary'/>
