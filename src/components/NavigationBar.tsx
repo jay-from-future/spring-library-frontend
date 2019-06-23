@@ -1,9 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, NavLink, Route} from 'react-router-dom';
-import WelcomePage from '../stateless/WelcomePage';
-import GenreTable from './GenreTable';
-import AuthorTable from './AuthorTable';
-import BookTable from './BookTable';
+import {NavLink} from 'react-router-dom';
 
 type MenuItemProps = {
     title: string,
@@ -52,19 +48,11 @@ class NavigationBar extends React.Component<any, NavigationBarState> {
         });
 
         return (
-            <main role='main' className='flex-shrink-0'>
-                <div className='container'>
-                    <ul className='nav nav-pills nav-fill'>
-                        <Router>
-                            {menuItems}
-                            <Route exact={true} path='/' component={WelcomePage}/>
-                            <Route path='/books' component={BookTable}/>
-                            <Route path='/authors' component={AuthorTable}/>
-                            <Route path='/genres' component={GenreTable}/>
-                        </Router>
-                    </ul>
-                </div>
-            </main>
+            <div className='container'>
+                <ul className='nav nav-pills nav-fill'>
+                    {menuItems}
+                </ul>
+            </div>
         );
     }
 }
