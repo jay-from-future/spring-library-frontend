@@ -70,26 +70,28 @@ class BookTable extends BookGenericComponent {
         });
 
         return (
-            <div className='container'>
-                <h1 className='mt-5'>Books</h1>
-                <p className='lead'>List of all books in the library:</p>
-                <table className='table table-bordered'>
-                    <thead className='thead-dark'>
-                    <tr>
-                        <th>Title</th>
-                        <th>Authors</th>
-                        <th>Genres</th>
-                        <th>Reviews</th>
-                        <th>Edit</th>
-                        <th>Remove</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {books}
-                    </tbody>
-                </table>
-                <CreateBookDialog onCreate={this.onCreate}/>
-            </div>
+            <main role='main' className='flex-shrink-0'>
+                <div className='container'>
+                    <h1 className='mt-5'>Books</h1>
+                    <p className='lead'>List of all books in the library:</p>
+                    <table className='table table-bordered'>
+                        <thead className='thead-dark'>
+                        <tr>
+                            <th>Title</th>
+                            <th>Authors</th>
+                            <th>Genres</th>
+                            <th>Reviews</th>
+                            <th>Edit</th>
+                            <th>Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {books}
+                        </tbody>
+                    </table>
+                    <CreateBookDialog onCreate={this.onCreate}/>
+                </div>
+            </main>
         );
     }
 }
