@@ -38,8 +38,12 @@ export default abstract class GenreGenericComponent extends React.Component<Genr
         }
 
         console.log('+loadGenres:' + genresLink);
-
-        fetch(genresLink)
+        const accessToken = localStorage.getItem('access_token');
+        fetch(genresLink, {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
+        })
             .then(response => response.json())
             .then(result => {
                 const genres = result._embedded.genres.map((g: any) => {

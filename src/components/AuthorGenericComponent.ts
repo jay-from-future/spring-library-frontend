@@ -38,8 +38,12 @@ export default abstract class AuthorGenericComponent extends React.Component<Aut
         }
 
         console.log('+loadAuthors:' + authorsLink);
-
-        fetch(authorsLink)
+        const accessToken = localStorage.getItem('access_token');
+        fetch(authorsLink, {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
+        })
             .then(response => response.json())
             .then(result => {
                 console.log(result);

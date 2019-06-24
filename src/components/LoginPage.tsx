@@ -4,8 +4,9 @@ import {UserCredentials} from '../domain/UserCredentials';
 import {getHistory} from '../service/history';
 import base64 from 'base-64';
 
+const auth = process.env.REACT_APP_AUTH_URL;
+
 // todo these values shouldn't be hardcoded
-const auth = 'https://spring-library-auth.herokuapp.com';
 const clientId = 'spring-library-jwt-client';
 const clientSecret = 'admin1234';
 

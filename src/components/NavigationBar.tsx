@@ -1,6 +1,5 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-// import {AccessTokenService} from "../service/AccessTokenService";
 
 type MenuItemProps = {
     title: string,
@@ -18,6 +17,7 @@ class NavigationBar extends React.Component<any, NavigationBarState> {
         super(props);
 
         // only main and login pages are visible by default
+        // todo show only links that are available for the user (depends on access rights)
         this.state = {
             pages: [
                 {
@@ -48,23 +48,6 @@ class NavigationBar extends React.Component<any, NavigationBarState> {
             ]
         };
     }
-
-    // componentWillMount(): void {
-    //     const pages = this.state.pages.slice();
-    //
-    //     const accessToken = AccessTokenService.getAccessToken();
-    //
-    //     // todo rewrite with more complicated check
-    //     if (accessToken) {
-    //         pages.forEach(p => {
-    //             p.visible = true
-    //         })
-    //     }
-    //
-    //     this.setState({
-    //         pages: pages
-    //     });
-    // }
 
     render() {
         const {pages} = this.state;

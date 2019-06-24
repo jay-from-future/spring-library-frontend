@@ -16,13 +16,14 @@ class BookTable extends BookGenericComponent {
 
     onCreate(title: string, authors: Array<string>, genres: Array<string>) {
         console.log('+BookTable.onCreate');
+        const accessToken = localStorage.getItem('access_token');
         fetch(url + '/books', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
-            ,
+                'Authorization': 'Bearer ' + accessToken
+            },
             body: JSON.stringify({
                 title: title,
                 authors: authors,
