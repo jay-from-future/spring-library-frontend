@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 
 const url = process.env.REACT_APP_URL;
@@ -37,19 +37,19 @@ export class GenreSearch extends React.Component<GenreSearchProps, GenreSearchSt
 
     loadGenres(query: string) {
         console.log('+GenreSearch.loadGenres');
-        fetch(searchUrl + 'genres/searchByGenre?genre=' + query)
+        fetch(`${searchUrl}/genres/searchByGenre?genre=${query}`)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
                 let genres = result.map((g: any) => {
-                    return {self: url + 'genres/' + g.id, genre: g.genre};
+                    return {self: `${url}/genres/` + g.id, genre: g.genre};
                 });
                 this.setState({
                     isLoading: false,
                     options: genres
                 });
             }, error => {
-                console.error(error)
+                console.error(error);
             });
     }
 

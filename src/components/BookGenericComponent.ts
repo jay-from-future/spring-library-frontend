@@ -1,5 +1,5 @@
-import React from "react";
-import {Book} from "../domain/Book";
+import React from 'react';
+import {Book} from '../domain/Book';
 
 const url = process.env.REACT_APP_URL;
 
@@ -33,7 +33,7 @@ export default abstract class BookGenericComponent extends React.Component<any, 
     loadBooks() {
         console.log('+loadBooks:' + url);
         const accessToken = localStorage.getItem('access_token');
-        fetch(url + '/books', {
+        fetch(`${url}/books`, {
             headers: {
                 'Authorization': 'Bearer ' + accessToken
             }
@@ -56,7 +56,7 @@ export default abstract class BookGenericComponent extends React.Component<any, 
                 }
 
             }, error => {
-                console.error(error)
+                console.error(error);
             });
     };
 }

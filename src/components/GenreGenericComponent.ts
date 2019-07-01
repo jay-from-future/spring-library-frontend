@@ -32,7 +32,7 @@ export default abstract class GenreGenericComponent extends React.Component<Genr
     }
 
     loadGenres() {
-        let genresLink = url + '/genres';
+        let genresLink = `${url}/genres`;
         if (this.props.genresLink) {
             genresLink = this.props.genresLink;
         }

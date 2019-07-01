@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 
 const url = process.env.REACT_APP_URL;
@@ -37,7 +37,7 @@ export class AuthorSearch extends React.Component<AuthorSearchProps, AuthorSearc
 
     loadAuthors(query: string) {
         console.log('+AuthorSearch.loadAuthors');
-        fetch(searchUrl + 'authors/searchByName?name=' + query)
+        fetch(`${searchUrl}/authors/searchByName?name=${query}`)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -49,7 +49,7 @@ export class AuthorSearch extends React.Component<AuthorSearchProps, AuthorSearc
                     options: authors
                 });
             }, error => {
-                console.error(error)
+                console.error(error);
             });
     }
 

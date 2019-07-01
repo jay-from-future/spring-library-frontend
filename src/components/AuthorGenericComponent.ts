@@ -1,5 +1,5 @@
-import {Author} from "../domain/Author";
-import React from "react";
+import {Author} from '../domain/Author';
+import React from 'react';
 
 const url = process.env.REACT_APP_URL;
 
@@ -32,12 +32,10 @@ export default abstract class AuthorGenericComponent extends React.Component<Aut
     }
 
     loadAuthors() {
-        let authorsLink = url + '/authors';
+        let authorsLink = `${url}/authors`;
         if (this.props.authorsLink) {
             authorsLink = this.props.authorsLink;
         }
-
-        console.log('+loadAuthors:' + authorsLink);
         const accessToken = localStorage.getItem('access_token');
         fetch(authorsLink, {
             headers: {
@@ -54,7 +52,7 @@ export default abstract class AuthorGenericComponent extends React.Component<Aut
                     this.setState({authors: authors});
                 }
             }, error => {
-                console.error(error)
+                console.error(error);
             });
     };
 

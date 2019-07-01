@@ -46,7 +46,7 @@ export class LoginPage extends React.Component<any, LoginPageState> {
             'Authorization': 'Basic ' + base64.encode(clientId + ':' + clientSecret)
         };
 
-        fetch(auth + '/oauth/token', {
+        fetch(`${auth}/oauth/token`, {
             method,
             headers,
             body
