@@ -35,7 +35,12 @@ export class ReviewList extends React.Component<ReviewListProps, ReviewListState
 
     loadReviews() {
         console.log('+loadReviews:' + this.props.reviewLink);
-        fetch(this.props.reviewLink)
+        const accessToken = localStorage.getItem('access_token');
+        fetch(this.props.reviewLink, {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
+        })
             .then(response => response.json())
             .then(result => {
                 console.log(result);

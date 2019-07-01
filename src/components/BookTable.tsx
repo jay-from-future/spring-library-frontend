@@ -1,7 +1,7 @@
 import React from 'react';
 import {CreateBookDialog} from '../dialog/CreateBookDialog';
-import {BookRow} from "./BookRow";
-import BookGenericComponent from "./BookGenericComponent";
+import {BookRow} from './BookRow';
+import BookGenericComponent from './BookGenericComponent';
 
 const url = process.env.REACT_APP_URL;
 
@@ -16,13 +16,14 @@ class BookTable extends BookGenericComponent {
 
     onCreate(title: string, authors: Array<string>, genres: Array<string>) {
         console.log('+BookTable.onCreate');
-        fetch(url + '/books', {
+        const accessToken = localStorage.getItem('access_token');
+        fetch(`${url}/books`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
-            ,
+                'Authorization': 'Bearer ' + accessToken
+            },
             body: JSON.stringify({
                 title: title,
                 authors: authors,
@@ -65,7 +66,9 @@ class BookTable extends BookGenericComponent {
     render() {
 
         const books = this.state.books.map(book => {
-            return (<BookRow key={book.selfLink} book={book} onShowReviews={this.onShowReviews} onEdit={this.onEdit}
+            return (<BookRow key={book.selfLink} book={book}
+                             onShowReviews={this.onShowReviews}
+                             onEdit={this.onEdit}
                              onDelete={this.onDelete}/>);
         });
 
